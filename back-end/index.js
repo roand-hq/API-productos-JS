@@ -1,7 +1,8 @@
 import app from "./app.js";
 import "./database.js"
+import {config} from "./src/config.js"
 async function main() {
-    app.listen(5000);
+    app.listen(config.server.PUERTO);
     console.log("Server running...")
     
 }

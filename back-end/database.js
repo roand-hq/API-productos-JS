@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
-
-//configurar uri de la base de datos
-const URI = "mongodb://localhost:27017/ferreteriaEPA;"
+import {config} from "./src/config.js"
 
 //conectar a la base de datos
-mongoose.connect(URI);  
+mongoose.connect(config.db.URI);
 
 //crear una variable 
 const connection = mongoose.connection;
