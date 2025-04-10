@@ -59,7 +59,9 @@ registerClientController.register = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       //aqui van el correo y contraseña del correo desde el que se enviara algo
-      auth: { user: config.EMAIL.user, pass: config.EMAIL.pass }
+      auth: { 
+        user: config.EMAIL.user, 
+        pass: config.EMAIL.pass },
     });
 
     const mailOptions = {
@@ -77,26 +79,24 @@ registerClientController.register = async (req, res) => {
     console.log("El error es: " + error);
     res.json({ message: "El error es " + error });
   }
-
-  
 };
 registerClientController.verifyCodeEmail = async (req, res) => {
-    const { verificationCodeRequest } = req.body;
-    //1- Obtener el token
-    const token = req.cookies.verificationToken;
-    //2-Verificar y decodificar el token
-    const decoder = jsonwebtoken.verify(token, config.JWT.secret);
-    const { email, verificationCode: storedCode } = decoded;
-    //3-Comparar codigos
-    if (verificationCodeRequest !== storedCode) {
-      return res.json({ message: "Invalid code" });
-    }
-    //Si el codigo es igual, ponemos verified en true
-    const client = await clientModel.findOne({ email });
-    client.isVerified = true;
-    await client.save();
+  const { verificationCodeRequest } = req.body;
+  //1- Obtener el token
+  const token = req.cookies.verificationToken;
+  //2-Verificar y decodificar el token
+  const decoded = jsonwebtoken.verify(token, config.JWT.secret);
+  const { email, verificationCode: storedCode } = decoded;
+  //3-Comparar codigos
+  if (verificationCodeRequest !== storedCode) {
+    return res.json({ message: "Invalid code" });
+  }
+  //Si el codigo es igual, ponemos verified en true
+  const client = await clientModel.findOne({ email });
+  client.isVerified = true;
+  await client.save();
 
-    res.clearCookie("verificationToken");
-    res, json({ message: "Email verified succesfully" });
-  };
+  res.clearCookie("verificationToken");
+  res.json({ message: "Email verified succesfully" });
+};
 export default registerClientController;
