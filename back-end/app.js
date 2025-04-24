@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import login from "./src/routes/login.js";
 import logout from "./src/routes/logout.js"
 import registerClient from "./src/routes/registerClient.js"
+import RecoveryPassword from "./src/routes/RecoveryPassword.js";
 // Crea una constante que es igual a la librería que importe
 const app = express();
 
@@ -26,5 +27,6 @@ app.use("/api/registerEmployee", registerEmployee);
 app.use("/api/login", login);
 app.use("/api/logout",logout)
 app.use("/api/registerClient", registerClient)
+app.use("/api/RecoveryPassword",RecoveryPassword)
 // Exporta la constante app en otros archivos
 export default app;

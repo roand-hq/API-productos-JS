@@ -50,7 +50,7 @@ registerEmployeeController.register = async (req, res) => {
       config.JWT.secret,
       //3- cuando expira
       { expiresIn: config.JWT.expires },
-      //4- ff
+      //4- ff (que hacer si hay un error)
       (error, token) => {
         if (error) console.log(error);
         res.cookie("authToken", token);
