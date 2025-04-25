@@ -40,11 +40,40 @@ RecoveryPasswordController.requestCode = async (req, res) => {
       HTMLRecoveryMail(code)
     );
 
-    res.json("Correo enviado ")
+    res.json("Correo enviado ");
   } catch (error) {
     console.log("Algo salio mal: " + error);
   }
 };
 
-export {RecoveryPasswordController}
+RecoveryPasswordController.verifyCode = async (req, res) => {
+  const { code } = req.body;
+  try {
+    //obtenemos el token
+    const token = req.cookies.tokenRecoveryCode;
+    //extraemos el codigo del token 
+    const decoded = jsonwebtoken.verify(token, config.JWT.secret)
+    //comparamos el codigo que el usuario escribe con el que tengo guardado en el token
+    if(decoded.code !== code) return res.json({message: "invalid code"})
+     
+      //token con la informacion ya validada
+      const newToken = jsonwebtoken.sign(
+        //que guardaremos
+        {email: decoded.email,
+        code: decoded.code,
+        userType: decoded.userType,
+        verified: true
+        },
+        //palabra secreta
+        config.JWT.secret,
+        //cuando expira
+        {expiresIn: "20m"}
+        )
+        res.cookie("tokenRecoveryCode", newToken,{maxAge:20*60*1000})
+        res.json({message: "Code verified successfully"})
+  } catch (error) {
+    console.log("Error al verificar token: "+error)
+  }
+};
 
+export { RecoveryPasswordController };
