@@ -11,6 +11,7 @@ import login from "./src/routes/login.js";
 import logout from "./src/routes/logout.js"
 import registerClient from "./src/routes/registerClient.js"
 import RecoveryPassword from "./src/routes/RecoveryPassword.js";
+import providersRoutes from "./src/routes/providers.js"
 // Crea una constante que es igual a la librería que importe
 const app = express();
 
@@ -28,5 +29,6 @@ app.use("/api/login", login);
 app.use("/api/logout",logout)
 app.use("/api/registerClient", registerClient)
 app.use("/api/RecoveryPassword",RecoveryPassword)
+app.use("/api/providers",providersRoutes)
 // Exporta la constante app en otros archivos
 export default app;
