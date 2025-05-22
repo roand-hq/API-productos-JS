@@ -39,7 +39,7 @@ loginController.login = async (req, res) => {
     }
     //TOKEN
     jsonwebtoken.sign(
-      { _id: userFound._id },
+      { _id: userFound._id, userType },
       config.JWT.secret,
       {
         expiresIn: config.JWT.expires,
