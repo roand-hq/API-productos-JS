@@ -13,16 +13,21 @@ import registerClient from "./src/routes/registerClient.js";
 import RecoveryPassword from "./src/routes/RecoveryPassword.js";
 import providersRoutes from "./src/routes/providers.js";
 import { validateAuthToken } from "./src/middlewares/validateAuthToken.js";
+import cors from "cors"
 // Crea una constante que es igual a la librería que importe
 const app = express();
 
 //middleware para aceptar datos desde postman
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(cors({
+     origin: "http://localhost:5173",
+      credentials: true }));
 //Vinculando la url a la ruta
 app.use(
   "/api/products",
-  validateAuthToken(["employee", "admin"]),
+  // validateAuthToken(["employee", "admin"]),
   productsRoutes
 );
 app.use("/api/clients", clientsRoutes);
@@ -47,5 +52,6 @@ app.use(
   validateAuthToken(["employee", "admin"]),
   providersRoutes
 );
+
 // Exporta la constante app en otros archivos
 export default app;

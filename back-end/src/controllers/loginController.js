@@ -47,7 +47,7 @@ loginController.login = async (req, res) => {
       //guardar el token en cookies
       (error, token) => {
         if (error) console.log(error);
-        res.cookie("loginToken", token);
+        res.cookie("authToken", token);
         
       }
     );

@@ -2,7 +2,7 @@ import jsonwebtoken from "jsonwebtoken";
 import { config } from "../config.js";
 
 //la funcion solicita un array de los usuarios que tienen acceso al endpoint
-export const validateAuthToken = async (allowedUserTypes = []) => {
+export const validateAuthToken =  (allowedUserTypes = []) => {
   return (req, res, next) => {
     try {
         //extraer el token de las cookies
