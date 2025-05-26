@@ -1,17 +1,30 @@
 import { useEffect, useState } from "react";
 import EmpleadosCard from "../components/EmpleadosCard";
 import Navbar from "../components/Navbar";
+import { Modal, Button, Form } from "react-bootstrap";
 
 const Empleados = () => {
   const [empleados, setEmpleados] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const [nuevoEmpleado, setNuevoEmpleado] = useState({
+    name: "",
+    lastName: "",
+    email: "",
+    birthday: "",
+    phone: "",
+    address: "",
+    hireDate: "",
+    isssNumber: "",
+  });
+
   const fetchEmpleados = async () => {
     try {
       const response = await fetch("http://localhost:4000/api/employees");
       if (!response.ok) throw new Error("Error al cargar empleados");
       const data = await response.json();
       setEmpleados(data);
-      console.log(empleados);
       setLoading(false);
     } catch (error) {
       console.error("Error:", error);
@@ -24,8 +37,7 @@ const Empleados = () => {
       await fetch(`http://localhost:4000/api/employees/${id}`, {
         method: "DELETE",
       });
-      fetchEmpleados();
-      setEmpleados((prev) => prev.filter((e) => e.id !== id));
+      fetchEmpleados(); // Actualiza la lista después de borrar
     } catch (error) {
       console.error("Error al borrar empleado:", error);
     }
@@ -35,14 +47,40 @@ const Empleados = () => {
     console.log("Actualizar empleado:", empleado);
   };
 
+  const crearEmpleado = async () => {
+    try {
+      const res = await fetch("http://localhost:4000/api/employees", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nuevoEmpleado),
+      });
+      if (!res.ok) throw new Error("Error al crear empleado");
+      setShowModal(false);
+      setNuevoEmpleado({
+        name: "",
+        lastName: "",
+        email: "",
+        birthday: "",
+        phoneNumber: "",
+        address: "",
+        hireDate: "",
+        isssNumber: "",
+      });
+      fetchEmpleados();
+    } catch (error) {
+      console.error("Error al crear empleado:", error);
+    }
+  };
+
   useEffect(() => {
     fetchEmpleados();
   }, []);
+
   if (loading) return <h1> Cargando...</h1>;
 
   return (
     <>
-      <Navbar titulo="Empleados"></Navbar>
+      <Navbar titulo="Empleados" />
 
       <div className="container">
         <div className="row">
@@ -57,6 +95,7 @@ const Empleados = () => {
           ))}
         </div>
 
+        {/* FAB */}
         <button
           className="btn btn-primary rounded-circle"
           style={{
@@ -72,14 +111,56 @@ const Empleados = () => {
             boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
             zIndex: 1000,
           }}
-          onClick={() => {
-            // Acción al hacer clic, como abrir un modal o redirigir
-            console.log("FAB presionado");
-          }}
+          onClick={() => setShowModal(true)}
         >
-          +
+          <i className="bi bi-plus"></i>
         </button>
       </div>
+
+      {/* Modal para agregar nuevo empleado */}
+    <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "#0d6efd", color: "white" }}
+        >
+          <Modal.Title>Agregar Empleado</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            {[
+              { label: "Nombre", key: "name" },
+              { label: "Apellido", key: "lastName" },
+              { label: "Email", key: "email", type: "email" },
+              { label: "Fecha de nacimiento", key: "birthday", type: "date" },
+              { label: "Teléfono", key: "phoneNumber" },
+              { label: "Fecha de contratación", key: "hireDate", type: "date" },
+              { label: "Numero de seguro social", key: "isssNumber" },
+            ].map((campo) => (
+              <Form.Group className="mb-2" key={campo.key}>
+                <Form.Label>{campo.label}</Form.Label>
+                <Form.Control
+                  type={campo.type || "text"}
+                  value={nuevoEmpleado[campo.key]}
+                  onChange={(e) =>
+                    setNuevoEmpleado({
+                      ...nuevoEmpleado,
+                      [campo.key]: e.target.value,
+                    })
+                  }
+                />
+              </Form.Group>
+            ))}
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={crearEmpleado}>
+            Guardar
+          </Button>
+        </Modal.Footer>
+    </Modal>
     </>
   );
 };

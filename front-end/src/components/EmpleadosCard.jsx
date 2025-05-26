@@ -22,9 +22,9 @@ const EmpleadosCard = ({ empleado, borrarEmpleado, actualizarEmpleado }) => {
           <strong>Email:</strong> {empleado.email}
         </p>
 
-            {/* Lo mismo, pero crea primero una variable que toma un valor */}
-            {/* Dependiendo de si se guardo como hiringDate o como hireDate */}
-            {/* Y luego la formatea */}
+        {/* Lo mismo, pero crea primero una variable que toma un valor */}
+        {/* Dependiendo de si se guardo como hiringDate o como hireDate */}
+        {/* Y luego la formatea */}
         <p className="card-text mb-1">
           <strong>Fecha de contratación:</strong>{" "}
           {(() => {
@@ -43,13 +43,22 @@ const EmpleadosCard = ({ empleado, borrarEmpleado, actualizarEmpleado }) => {
           <strong>Seguro Social:</strong> {empleado.Isss || empleado.isssNumber}
         </p>
 
-        <button className="btn btn-danger me-2" onClick={borrarEmpleado}>
-          Eliminar
-        </button>
-
-        <button className="btn btn-primary" onClick={actualizarEmpleado}>
-          Actualizar datos
-        </button>
+        <div className="d-flex gap-2">
+          <button
+            className="btn btn-danger"
+            style={{ width: "auto", flex: "none" }}
+            onClick={borrarEmpleado}
+          >
+            <i className="bi bi-trash3-fill me-1"></i> Eliminar
+          </button>
+          <button
+            className="btn btn-primary"
+            style={{ width: "auto", flex: "none" }}
+            onClick={actualizarEmpleado}
+          >
+            <i className="bi bi-pencil-fill me-1"></i> Actualizar datos
+          </button>
+        </div>
       </div>
     </div>
   );
