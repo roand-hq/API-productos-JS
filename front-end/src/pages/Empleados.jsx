@@ -7,6 +7,7 @@ const Empleados = () => {
   const [empleados, setEmpleados] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [modoEdicion, setModoEdicion] = useState(false);
 
   const [nuevoEmpleado, setNuevoEmpleado] = useState({
     name: "",
@@ -44,9 +45,57 @@ const Empleados = () => {
   };
 
   const actualizarEmpleado = (empleado) => {
-    console.log("Actualizar empleado:", empleado);
+    setNuevoEmpleado({
+      name: empleado.name,
+      lastName: empleado.lastName,
+      email: empleado.email,
+      birthday: empleado.birthday ? empleado.birthday.slice(0, 10) : "",
+      phoneNumber: empleado.phoneNumber,
+      address: empleado.address,
+      hireDate:
+        empleado.hireDate || empleado.hiringDate
+          ? new Date(empleado.hireDate || empleado.hiringDate)
+              .toISOString()
+              .slice(0, 10)
+          : "",
+      isssNumber: empleado.isssNumber || empleado.Isss,
+      _id: empleado._id, // guardar el id para luego hacer el PUT
+    });
+    setModoEdicion(true);
+    setShowModal(true);
   };
+  const guardarCambiosEmpleado = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:4000/api/employees/${nuevoEmpleado._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(nuevoEmpleado),
+        }
+      );
 
+      if (!res.ok) throw new Error("Error al actualizar empleado");
+
+      setShowModal(false);
+      setModoEdicion(false);
+      setNuevoEmpleado({
+        name: "",
+        lastName: "",
+        email: "",
+        birthday: "",
+        phoneNumber: "",
+        address: "",
+        hireDate: "",
+        isssNumber: "",
+      });
+      fetchEmpleados(); // recarga la lista actualizada
+    } catch (error) {
+      console.error("Error al actualizar empleado:", error);
+    }
+  };
   const crearEmpleado = async () => {
     try {
       const res = await fetch("http://localhost:4000/api/employees", {
@@ -71,7 +120,20 @@ const Empleados = () => {
       console.error("Error al crear empleado:", error);
     }
   };
-
+  const cerrarModal = () => {
+    setShowModal(false);
+    setModoEdicion(false);
+    setNuevoEmpleado({
+      name: "",
+      lastName: "",
+      email: "",
+      birthday: "",
+      phoneNumber: "",
+      address: "",
+      hireDate: "",
+      isssNumber: "",
+    });
+  };
   useEffect(() => {
     fetchEmpleados();
   }, []);
@@ -82,7 +144,7 @@ const Empleados = () => {
     <>
       <Navbar titulo="Empleados" />
 
-      <div className="container">
+      <div className="container" style={{ paddingTop: "50px" }}>
         <div className="row">
           {empleados.map((empleado) => (
             <div className="col-md-4" key={empleado.id}>
@@ -118,7 +180,7 @@ const Empleados = () => {
       </div>
 
       {/* Modal para agregar nuevo empleado */}
-    <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => cerrarModal()}>
         <Modal.Header
           closeButton
           style={{ backgroundColor: "#0d6efd", color: "white" }}
@@ -153,14 +215,17 @@ const Empleados = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+          <Button variant="secondary" onClick={() => cerrarModal()}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={crearEmpleado}>
-            Guardar
+          <Button
+            variant="primary"
+            onClick={modoEdicion ? guardarCambiosEmpleado : crearEmpleado}
+          >
+            {modoEdicion ? "Actualizar" : "Guardar"}
           </Button>
         </Modal.Footer>
-    </Modal>
+      </Modal>
     </>
   );
 };

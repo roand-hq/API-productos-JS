@@ -4,7 +4,7 @@ const Navbar = ({ titulo }) => {
   const navigate = useNavigate();
 
   return (
-    <nav className="navbar navbar-dark bg-dark px-3 mb-4 d-flex justify-content-between align-items-center">
+    <nav className="navbar navbar-dark bg-dark px-3 mb-4 d-flex justify-content-between align-items-center fixed-top w-100">
       <span className="navbar-brand mb-0 h1">{titulo}</span>
       <button
         className="btn btn-outline-light d-flex align-items-center"
