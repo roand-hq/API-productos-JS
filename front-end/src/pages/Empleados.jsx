@@ -122,7 +122,6 @@ const Empleados = () => {
   };
   const cerrarModal = () => {
     setShowModal(false);
-    setModoEdicion(false);
     setNuevoEmpleado({
       name: "",
       lastName: "",
@@ -133,6 +132,7 @@ const Empleados = () => {
       hireDate: "",
       isssNumber: "",
     });
+    setModoEdicion(false);
   };
   useEffect(() => {
     fetchEmpleados();
@@ -155,7 +155,7 @@ const Empleados = () => {
               />
             </div>
           ))}
-        </div>
+       </div>
 
         {/* FAB */}
         <button
@@ -183,9 +183,11 @@ const Empleados = () => {
       <Modal show={showModal} onHide={() => cerrarModal()}>
         <Modal.Header
           closeButton
-          style={{ backgroundColor: "#0d6efd", color: "white" }}
+          style={{ backgroundColor: modoEdicion ? "#ffc107" : "#0d6efd", color: "white" }}
         >
-          <Modal.Title>Agregar Empleado</Modal.Title>
+          <Modal.Title>
+            {modoEdicion ? "Actualizar empleado" : "Agregar empleado"}
+            </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

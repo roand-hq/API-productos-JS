@@ -7,8 +7,8 @@ const Home = () => {
         Bienvenido a la app de gestión de la Ferreteria EPA
       </h1>
       <div style={styles.links}>
-        <Link to="/usuarios" style={styles.link}>
-          <i className="bi bi-people-fill me-2"></i>Usuarios
+        <Link to="/clientes" style={styles.link}>
+          <i className="bi bi-people-fill me-2"></i>Clientes
         </Link>
         <Link to="/empleados" style={styles.link}>
           <i className="bi bi-person-badge-fill me-2"></i>Empleados

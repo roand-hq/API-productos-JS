@@ -11,9 +11,9 @@ productsController.getProducts = async (req, res) => {
 
 //CREATE
 productsController.createProducts = async (req, res) => {
-  const { name, description, price, stock } = req.body;
+  const { name, description, category,price, stock } = req.body;
 
-  const newProducts = new productsModel({ name, description, price, stock });
+  const newProducts = new productsModel({ name, description,category, price, stock });
   await newProducts.save();
   res.json({ message: "Hola bro ya insertaste bro" }); //optional
 };
