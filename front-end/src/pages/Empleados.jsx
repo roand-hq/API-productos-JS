@@ -22,7 +22,7 @@ const Empleados = () => {
 
   const fetchEmpleados = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/employees");
+      const response = await fetch("https://api-productos-js-1.onrender.com/api/employees");
       if (!response.ok) throw new Error("Error al cargar empleados");
       const data = await response.json();
       setEmpleados(data);
@@ -35,7 +35,7 @@ const Empleados = () => {
 
   const borrarEmpleado = async (id) => {
     try {
-      await fetch(`http://localhost:4000/api/employees/${id}`, {
+      await fetch(`https://api-productos-js-1.onrender.com/api/employees/${id}`, {
         method: "DELETE",
       });
       fetchEmpleados(); // Actualiza la lista después de borrar
@@ -67,7 +67,7 @@ const Empleados = () => {
   const guardarCambiosEmpleado = async () => {
     try {
       const res = await fetch(
-        `http://localhost:4000/api/employees/${nuevoEmpleado._id}`,
+        `https://api-productos-js-1.onrender.com/api/employees/${nuevoEmpleado._id}`,
         {
           method: "PUT",
           headers: {
@@ -98,7 +98,7 @@ const Empleados = () => {
   };
   const crearEmpleado = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/employees", {
+      const res = await fetch("https://api-productos-js-1.onrender.com/api/employees", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(nuevoEmpleado),

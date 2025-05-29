@@ -20,7 +20,7 @@ const Clientes = () => {
 
   const fetchClientes = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/clients");
+      const response = await fetch("https://api-productos-js-1.onrender.com/api/clients");
       if (!response.ok) throw new Error("Error al cargar clientes");
       const data = await response.json();
       setClientes(data);
@@ -33,7 +33,7 @@ const Clientes = () => {
 
   const borrarCliente = async (id) => {
     try {
-      await fetch(`http://localhost:4000/api/clients/${id}`, {
+      await fetch(`https://api-productos-js-1.onrender.com/api/clients/${id}`, {
         method: "DELETE",
       });
       fetchClientes();
@@ -53,8 +53,8 @@ const Clientes = () => {
   const handleGuardar = async () => {
     try {
       const url = modoEdicion
-        ? `http://localhost:4000/api/clients/${clienteActual._id}`
-        : "http://localhost:4000/api/clients";
+        ? `https://api-productos-js-1.onrender.com/api/clients/${clienteActual._id}`
+        : "https://api-productos-js-1.onrender.com/api/clients";
       const method = modoEdicion ? "PUT" : "POST";
 
       await fetch(url, {

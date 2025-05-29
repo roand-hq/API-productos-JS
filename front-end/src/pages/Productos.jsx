@@ -13,7 +13,7 @@ const Productos = () => {
 
   const fetchProductos = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/products");
+      const response = await fetch("https://api-productos-js-1.onrender.com/api/products");
       if (!response.ok) throw new Error("Error al cargar productos");
       const data = await response.json();
       setProductos(data);
@@ -26,7 +26,7 @@ const Productos = () => {
 
   const borrarProducto = async (id) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/products/${id}`, {
+      const response = await fetch(`https://api-productos-js-1.onrender.com/api/products/${id}`, {
         method: "DELETE",
       });
 
@@ -42,7 +42,7 @@ const Productos = () => {
 
   const crearProducto = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/products", {
+      const response = await fetch("https://api-productos-js-1.onrender.com/api/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const Productos = () => {
   const guardarCambiosProducto = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/products/${nuevoProducto._id}`,
+        `https://api-productos-js-1.onrender.com/api/products/${nuevoProducto._id}`,
         {
           method: "PUT",
           headers: {
