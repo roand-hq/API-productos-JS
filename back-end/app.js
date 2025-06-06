@@ -13,6 +13,7 @@ import registerClient from "./src/routes/registerClient.js";
 import RecoveryPassword from "./src/routes/RecoveryPassword.js";
 import providersRoutes from "./src/routes/providers.js";
 import { validateAuthToken } from "./src/middlewares/validateAuthToken.js";
+import faqsRoutes from "./src/routes/faqs.js"
 import cors from "cors"
 // Crea una constante que es igual a la librería que importe
 const app = express();
@@ -47,6 +48,7 @@ app.use("/api/login", login);
 app.use("/api/logout", logout);
 app.use("/api/registerClient", registerClient);
 app.use("/api/RecoveryPassword", RecoveryPassword);
+app.use("/api/faqs",faqsRoutes)
 app.use(
   "/api/providers",
   validateAuthToken(["employee", "admin"]),
