@@ -1,0 +1,239 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DOCUMENTACION PARA LA API-PRODUCTS-JS",
+    "description": "API TALEGONA QUE HICE MIENTRAS APRENDIA MERN STACK",
+    "contact": {
+      "email": "rodrigo.hq.007@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/ricaldone-1f4/Api-Productos/1.0.1",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "paths": {
+    "/api/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Select ALL from Products",
+        "description": "Este método muestra todos los registros almacenados en la coleccion productos",
+        "operationId": "get-api-products",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Update  Product",
+        "description": "Este metodo toma un producto ya existente y actualiza alguno de sus valores",
+        "operationId": "put-api-products",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/api_products_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Insert Product",
+        "description": "Este método crea un nuevo registro en la coleccion de Productos",
+        "operationId": "post-api-products",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/api_products_body_1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Delete Product",
+        "description": "Este metodo elimina un registro seleccionado en la tabla producto",
+        "operationId": "delete-api-products",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Login",
+        "description": "Este metodo inicia sesion en el sistema",
+        "operationId": "post-api-login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/api_login_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "api_products_body": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "o4vsj4zg0sgr8"
+            }
+          },
+          "description": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "hjjlxm4tfv00z"
+            }
+          },
+          "price": {
+            "minimum": 0.01,
+            "type": "number",
+            "x-stoplight": {
+              "id": "kap47c9dtv67d"
+            }
+          },
+          "stock": {
+            "type": "number",
+            "x-stoplight": {
+              "id": "87f9imk3nfqmr"
+            }
+          }
+        }
+      },
+      "api_products_body_1": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "yn18qlwfal7m7"
+            }
+          },
+          "description": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "02nlspbrxwjz7"
+            }
+          },
+          "category": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "7k8hqb7ll06jb"
+            }
+          },
+          "price": {
+            "minimum": 0.01,
+            "type": "number",
+            "x-stoplight": {
+              "id": "w2q67pjdt4ear"
+            }
+          },
+          "stock": {
+            "minimum": 0,
+            "type": "number",
+            "x-stoplight": {
+              "id": "3org64sjb0p0a"
+            }
+          }
+        }
+      },
+      "api_login_body": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "9hqu4mmrv8wqy"
+            }
+          },
+          "password": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "85pcydhzn8cyz"
+            }
+          }
+        }
+      }
+    }
+  }
+}
