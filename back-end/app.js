@@ -18,6 +18,7 @@ import cors from "cors";
 import swagger from "swagger-ui-express";
 import fs from "fs";
 import path from "path";
+import salesRoutes from "./src/routes/sales.js"
 // Crea una constante que es igual a la librería que importe
 const app = express();
 
@@ -64,6 +65,7 @@ app.use(
   validateAuthToken(["employee", "admin"]),
   providersRoutes
 );
+app.use("/api/sales", salesRoutes)
 
 // Exporta la constante app en otros archivos
 export default app;
