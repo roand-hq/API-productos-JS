@@ -29,12 +29,28 @@ loginController.login = async (req, res) => {
     if (!userFound) {
       return res.json({ message: "user not found :((" });
     }
+    if(userType !== "admin") {
+      if(userFound,timeoutUntil > Date.now()) {
+      const minutosRestantes = Math.ceil((userFound.timeoutUntil - Date.now()) / 60000);
+        return res.json({ message: `Too many attempts, try again in ${minutosRestantes} minutes` }); 
+      }
+    }
     //Desencriptar contraseña si NO soy admin
     if (userType !== "admin") {
       const isMatch = bcrypt.compare(password, userFound.password);
 
       if (!isMatch) {
+        userFound.loginAttempts += 1;
+        if (userFound.loginAttempts >= 3) {
+         userFound.timeoutUntil = Date.now() + 15 * 60 * 1000; // 15 minutos
+          await userFound.save();
+          return res.json({ message: "La carlitos, esperate 15 minutotes" });
+        }
         res.json({ message: "Invalid password :((" });
+
+        userFound.loginAttempts = 0; // Resetear intentos de inicio de sesión
+        userFound.timeoutUntil = null; // Resetear tiempo de bloqueo
+        await userFound.save();
       }
     }
     //TOKEN
