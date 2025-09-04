@@ -19,12 +19,14 @@ import swagger from "swagger-ui-express";
 import fs from "fs";
 import path from "path";
 import salesRoutes from "./src/routes/sales.js"
+import limiter from "./src/middlewares/rateLimiter.js";
 // Crea una constante que es igual a la librería que importe
 const app = express();
 
 //middleware para aceptar datos desde postman
 app.use(express.json());
 app.use(cookieParser());
+app.use(limiter);
 const swaggerDocument = JSON.parse(
   fs.readFileSync(path.resolve("./DOCUMENTACION_TALEGONA.json"), "utf-8")
 );
@@ -55,7 +57,7 @@ app.use(
   validateAuthToken(["employee", "admin"]),
   registerEmployee
 );
-app.use("/api/login", login);
+app.use("/api/login", limiter,login);
 app.use("/api/logout", logout);
 app.use("/api/registerClient", registerClient);
 app.use("/api/RecoveryPassword", RecoveryPassword);
